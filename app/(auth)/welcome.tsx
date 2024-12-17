@@ -53,7 +53,7 @@ const onBoarding = () => {
         className="w-11/12 mt-10"
         onPress={() =>
           isLastSlide
-            ? router.replace("/(auth)/sign-in")
+            ? router.replace("/(auth)/sign-up")
             : swiperRef.current?.scrollBy(1)
         }
       />
