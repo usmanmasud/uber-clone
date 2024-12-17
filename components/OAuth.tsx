@@ -4,6 +4,8 @@ import CustomButton from "./CustomButton";
 import { icons } from "@/constants";
 
 const OAuth = () => {
+  const handleGoogleSignIn = async () => {};
+
   return (
     <View>
       <View className="flex flex-row justify-center items-center mt-10 gap-x-3">
@@ -23,6 +25,7 @@ const OAuth = () => {
         )}
         bgVariant="outline"
         textVariant="primary"
+        onPress={handleGoogleSignIn}
       />
     </View>
   );
