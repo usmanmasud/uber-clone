@@ -7,8 +7,10 @@ import { Link, useRouter } from "expo-router";
 import OAuth from "@/components/OAuth";
 import { useSignUp } from "@clerk/clerk-expo";
 import ReactNativeModal from "react-native-modal";
+import { fetchAPI } from "@/lib/fetch";
 
 const singUp = () => {
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const { isLoaded, signUp, setActive } = useSignUp();
   const router = useRouter();
 
@@ -69,9 +71,18 @@ const singUp = () => {
       // and redirect the user
       if (signUpAttempt.status === "complete") {
         // create databse user
+        await fetchAPI("/(api)/user", {
+          method: "POST",
+          body: JSON.stringify({
+            name: form.name,
+            email: form.email,
+            clerkId: signUpAttempt.createdUserId,
+          }),
+        });
+
         await setActive({ session: signUpAttempt.createdSessionId });
         setVerification({ ...verification, state: "success" });
-        router.replace("/");
+        // router.replace("/");
       } else {
         // If the status is not complete, check why. User may need to
         setVerification({
@@ -174,9 +185,9 @@ const singUp = () => {
 
         <ReactNativeModal
           isVisible={verification.state === "pending"}
-          onModalHide={() =>
-            setVerification({ ...verification, state: "success" })
-          }
+          onModalHide={() => {
+            if (verification.state === "success") setShowSuccessModal(true);
+          }}
         >
           <View className="bg-white px-7 py-9 rounded-2xl max-h-[350px]">
             <Text className="text-2xl font-JakartaExtraBold mb-2">
@@ -208,7 +219,7 @@ const singUp = () => {
           </View>
         </ReactNativeModal>
 
-        <ReactNativeModal isVisible={verification.state === "success"}>
+        <ReactNativeModal isVisible={showSuccessModal}>
           <View className="bg-white px-7 py-9 rounded-2xl min-h-[350px]">
             <Image
               source={images.check}
@@ -223,7 +234,10 @@ const singUp = () => {
             </Text>
             <CustomButton
               title="Browse Home"
-              onPress={() => router.replace("/(root)/(tabs)/home")}
+              onPress={() => {
+                setShowSuccessModal(false);
+                router.push("/(root)/(tabs)/home");
+              }}
             />
           </View>
         </ReactNativeModal>

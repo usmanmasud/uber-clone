@@ -1,10 +1,10 @@
-import { View, Text } from "react-native";
-import React from "react";
-
-export default function _layout() {
+import { Stack } from "expo-router";
+import { StatusBar } from "expo-status-bar";
+export default function Layout() {
   return (
-    <View>
-      <Text>_layout</Text>
-    </View>
+    <Stack>
+      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      <StatusBar style="auto" />
+    </Stack>
   );
 }
