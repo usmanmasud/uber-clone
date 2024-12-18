@@ -91,7 +91,7 @@ const singIn = () => {
             className="text-lg text-center text-general-200 mt-10"
           >
             <Text>Dont' have an account? </Text>
-            <Text className="text-primary-500">Log In</Text>
+            <Text className="text-primary-500">Sign Up</Text>
           </Link>
         </View>
         {/* verification module */}
