@@ -1,5 +1,6 @@
 import { Link, Stack } from "expo-router";
 import { StyleSheet, Text, View } from "react-native";
+import "react-native-get-random-values";
 
 export default function NotFoundScreen() {
   return (
