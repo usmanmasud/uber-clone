@@ -16,6 +16,7 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { router } from "expo-router";
 
 export default function Home() {
   const { setUserLocation, setDestinationLocation } = useLocationStore();
@@ -37,14 +38,12 @@ export default function Home() {
 
       const address = Location.reverseGeocodeAsync({
         latitude: location.coords?.latitude!,
-        longitude: location.coords?.longtitude!,
+        longitude: location.coords?.longitude!,
       });
 
       setUserLocation({
-        // latitude: 37.78825,
-        // longitude: -122,
         latitude: location.coords?.latitude,
-        longitude: location.coords?.longtitud,
+        longitude: location.coords?.longitude,
         address: `${address[0].name}, ${address[0].region}`,
       });
     };
@@ -52,9 +51,19 @@ export default function Home() {
     requestLocation();
   }, []);
 
-  const handleSignOut = () => {};
+  const handleSignOut = () => {
+    router.push("/(root)/find-ride");
+  };
 
-  const handleDestinationPress = () => {};
+  const handleDestinationPress = (location: {
+    latitude: number;
+    longitude: number;
+    address: string;
+  }) => {
+    setDestinationLocation(location);
+
+    router.push("/(root)/find-ride");
+  };
 
   const recentRides = [
     {
